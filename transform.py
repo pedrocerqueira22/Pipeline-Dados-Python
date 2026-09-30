@@ -2,10 +2,12 @@ import pandas as pd
 from datetime import datetime
 
 def transformar(dados):
-    cotacao = dados['USDBRL']
-    df = pd.DataFrame([{
-        'moeda': 'USD-BRL',
-        'valor': float(cotacao['bid']),
-        'data_coleta': datetime.now()
-    }])
+    linhas = []
+    for chave, cotacao in dados.items():
+        linhas.append({
+            'moeda': cotacao['code'] + '-' + cotacao['codein'],
+            'valor': float(cotacao['bid']),
+            'data_coleta': datetime.now()
+        })
+    df = pd.DataFrame(linhas)
     return df
